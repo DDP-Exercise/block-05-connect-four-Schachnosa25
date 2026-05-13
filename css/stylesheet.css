@@ -1,0 +1,83 @@
+
+body {
+    font-family: Arial, sans-serif;
+
+    background-image:  url('../image/vier.jpg');;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+}
+
+#gameWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.side {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side img {
+    width: 150px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#board {
+    display: grid;
+
+    grid-template-columns: repeat(7, 90px);
+    grid-template-rows: repeat(6, 90px);
+    gap: 10px;
+    padding: 20px;
+    background: rgba(90, 90, 90, 0.9);
+    border-radius: 20px;
+}
+
+
+.cell {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    cursor: pointer;
+}
+
+
+.player1 {
+    background: #93C572;
+}
+
+.player2 {
+    background: #6A5ACD;
+}
+
+
+#message {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 30px;
+    color: deeppink;
+}

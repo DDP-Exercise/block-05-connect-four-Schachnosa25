@@ -1,14 +1,61 @@
 "use strict";
 
-//TODO: Think of this view as your game board.
-//      Your view should listen to various custom events of your model.
-//      For each event of your model, there should be a clear visual
-//      representation of what's going on.
+class ViewPolished {
 
-//TODO: Update the field. Show the whole battlefield with all the stones
-//      that are already played.
+    constructor() {
 
-//TODO: Show the current player
+        this.boardElement = document.getElementById("board");
+        this.messageElement = document.getElementById("message");
+    }
 
-//TODO: Notify the player when the game is over. Make it clear how the
-//      Game ended. If it's a win, show the winning stones.
+
+    renderBoard(board) {
+
+        const cells = document.querySelectorAll(".cell");
+
+        let index = 0;
+
+        for (let row = 0; row < board.length; row++) {
+
+            for (let col = 0; col < board[row].length; col++) {
+
+                cells[index].className = "cell";
+
+                if (board[row][col] === 1) {
+                    cells[index].classList.add("player1");
+                }
+
+                if (board[row][col] === 2) {
+                    cells[index].classList.add("player2");
+                }
+
+                index++;
+            }
+        }
+    }
+
+
+    showWinner(winner) {
+
+        if (winner === 1) {this.messageElement.textContent = "Murphy wins!🎉";}
+
+        if (winner === 2) {this.messageElement.textContent = "Newton wins!🎉";}
+
+        this.messageElement.style.color = "orange";
+    }
+
+
+    showColumnFull() {
+
+        this.messageElement.textContent = "Column is full!";
+        this.messageElement.style.color = "orange";
+    }
+
+
+    updatePlayer(player) {
+
+        if (player === 1) {this.messageElement.textContent = "Murphy's turn";}
+
+        if (player === 2) {this.messageElement.textContent = "Newton's turn";}
+    }
+}
