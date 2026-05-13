@@ -3,9 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>Connect Four</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <h1>Connect Four</h1>
 </head>
+
 <body>
-    <!--TODO: Build the Markup for your Game. Don't forget to style it in a cascading stylesheet. -->
+
+    <div id="gameWrapper">
+
+        <div class="side left">
+            <img src="image/Murphyblabla.jpeg" alt="Murphy">
+        </div>
+
+        <div class="center">
+
+            <div id="board">
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+                <div class="cell" data-col="0"></div>
+                <div class="cell" data-col="1"></div>
+                <div class="cell" data-col="2"></div>
+                <div class="cell" data-col="3"></div>
+                <div class="cell" data-col="4"></div>
+                <div class="cell" data-col="5"></div>
+                <div class="cell" data-col="6"></div>
+
+            </div>
+
+            <div id="message"></div>
+
+        </div>
+
+        <div class="side right">
+            <img src="image/Newtonblabla.jpeg" alt="Newton">
+        </div>
+
+    </div>
+
+    <script src="js/model.connectfour.js"></script>
+    <script src="js/view.polished.js"></script>
+    <script src="js/controller.connectfour.js"></script>
+
+<script>
+    const model = new Model();
+    const view = new ViewPolished();
+    new Controller(model, view);
+</script>
 
 </body>
 </html>

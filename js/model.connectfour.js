@@ -1,39 +1,141 @@
 "use strict";
 
-//TODO: Think of this model as the game-logic.
-//      The model knows everything that is neccessary to manage
-//      the game. It knows the players, know who's turn it is,
-//      knows all the stones and where they are, knows if the
-//      game is over and if so, why (draw or winner). It knows
-//      which stones are the winning stones. The model also has
-//      sovereignty over the battlefield.
-//      First step: Create your model-object with all the properties
-//      necessary to store that information.
+class Model extends EventTarget {
 
-//TODO: Prepare some customEvents. The model should dispatch events when
-//      - The Player Changes
-//      - A stone was inserted
-//      - The Game is over (Draw or Winner)
-//      Don't forget to give your events a namespace.
-//      For each customEvent, just make a >method< for your model-object,
-//      that, when called, dispatches the event. Nothing else should
-//      happen in those methods.
+    constructor() {
+        super();
+
+        this.rows = 6;
+        this.cols = 7;
+
+        this.board = this.createBoard();
+
+        this.currentPlayer = 1;
+
+        this.gameOver = false;
+    }
+
+    createBoard() {
+
+        const board = [];
+
+        for (let r = 0; r < this.rows; r++) {
+
+            const row = [];
+
+            for (let c = 0; c < this.cols; c++) {
+                row.push(0);
+            }
+
+            board.push(row);
+        }
+
+        return board;
+    }
+
+    insertStone(col) {
+
+        if (this.gameOver) return;
+
+        for (let row = this.rows - 1; row >= 0; row--) {
+
+            if (this.board[row][col] === 0) {
+
+                this.board[row][col] = this.currentPlayer;
+
+                this.dispatchStoneInserted();
+
+                if (this.checkWin(row, col)) {
+                    this.gameOver = true;
+                    this.dispatchGameOver(this.currentPlayer);
+                    return;
+                }
+
+                if (this.isDraw()) {
+                    this.gameOver = true;
+                    this.dispatchGameOver(0);
+                    return;
+                }
+
+                this.changePlayer();
+                return;
+            }
+        }
+
+        this.dispatchColumnFull();
+    }
+
+    changePlayer() {
+
+        this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
+
+        this.dispatchEvent(new CustomEvent("playerChange", {
+            detail: { player: this.currentPlayer }
+        }));
+    }
+
+    isDraw() {
+
+        return this.board.every(row => row.every(cell => cell !== 0));
+    }
+
+    checkWin(row, col) {
+
+        const player = this.board[row][col];
+
+        const directions = [
+            [0, 1], [1, 0], [1, 1], [1, -1]
+        ];
+
+        for (let [dr, dc] of directions) {
+
+            let count = 1;
+
+            count += this.countDirection(row, col, dr, dc, player);
+            count += this.countDirection(row, col, -dr, -dc, player);
+
+            if (count >= 4) return true;
+        }
+
+        return false;
+    }
+
+    countDirection(row, col, dr, dc, player) {
+
+        let count = 0;
+
+        let r = row + dr;
+        let c = col + dc;
+
+        while (
+            r >= 0 && r < this.rows &&
+            c >= 0 && c < this.cols &&
+            this.board[r][c] === player
+            ) {
+            count++;
+            r += dr;
+            c += dc;
+        }
+
+        return count;
+    }
 
 
-//TODO: Initiate the battlefield. Your model needs a representation of the
-//      battlefield as data (two-dimensional array). Obviously, there are
-//      no stones yet in the field.
+    dispatchStoneInserted() {
 
-//TODO: The model should offer a method to insert a stone at a given column.
-//      If the stone can be inserted, the model should insert the stone,
-//      dispatch an event to let the world know that the battlefield has changed
-//      and check if the game is over now.
-//      Hint: This method will be called later by your controller, when the
-//      user makes an according input.
+        this.dispatchEvent(new CustomEvent("stoneInserted", {
+            detail: { board: this.board }
+        }));
+    }
 
-//TODO: Methods to check if the game is over, either by draw or a win.
-//      Let the world know in both cases what happend. If it's a win,
-//      Don't forget to store the winning stones and add this >detail<
-//      to your custom event.
+    dispatchGameOver(winner) {
 
-//TODO: Method to change the current player (and dispatch the according event).
+        this.dispatchEvent(new CustomEvent("gameOver", {
+            detail: { winner }
+        }));
+    }
+
+    dispatchColumnFull() {
+        this.dispatchEvent(new CustomEvent("columnFull"));
+    }
+}

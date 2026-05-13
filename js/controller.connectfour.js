@@ -37,11 +37,56 @@
  *
  *     The creation of this game should take you somewhere between
  *     8-10 hours of concentrated work.
- *     Bratlsoft - 2026-04-29
+ *     Schachnosa Viertbauer - 2026-05-08
  *******************************************************/
 
+class Controller {
 
-//TODO: Create your controller-object. When initiated, it should boot
-//      the view (or views, if you decide to make a console-view).
+    constructor(model, view) {
 
-//TODO: Add EventListeners, to forward the user inputs to the model.
+        this.model = model;
+        this.view = view;
+
+        this.init();
+    }
+
+    init() {
+
+        this.view.renderBoard(this.model.board);
+
+        document.getElementById("board")
+            .addEventListener("click", (event) => {
+
+                const col = event.target.closest(".cell")?.dataset.col;
+
+                if (col === undefined) return;
+
+                this.model.insertStone(Number(col));
+            });
+
+        this.registerModelEvents();
+    }
+
+    registerModelEvents() {
+
+        this.model.addEventListener("stoneInserted", (event) => {
+
+            this.view.renderBoard(event.detail.board);
+        });
+
+        this.model.addEventListener("playerChange", (event) => {
+
+            this.view.updatePlayer(event.detail.player);
+        });
+
+        this.model.addEventListener("gameOver", (event) => {
+
+            this.view.showWinner(event.detail.winner);
+        });
+
+        this.model.addEventListener("columnFull", () => {
+
+            this.view.showColumnFull();
+        });
+    }
+}
